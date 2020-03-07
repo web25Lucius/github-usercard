@@ -115,18 +115,21 @@ axios.get("https://api.github.com/users/web25Lucius")
        board.appendChild(newGitCard);
   })
   .catch( error => {
-    console.log("yo, Mona-your catch is working.", error);
+    console.log("yo, know which catch is working? this catch. But srsly something is wrong.", error);
   })
-  axios.get("https://api.github.com/users/web25Lucius/followers")
+
+axios.get("https://api.github.com/users/web25Lucius/followers")
   .then(response =>{
     response.data.forEach( user => {
        const newFolGitCard = gitCard(user); 
         board.appendChild(newFolGitCard); 
     }) 
 
-      // console.log(response.data); 
-    // const newGitFollowersCard = gitCard(response);
   })
+    .catch( error => {
+      console.log("Something is wrong.", error); 
+    })
+ 
 
 
  
