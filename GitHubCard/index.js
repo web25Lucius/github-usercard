@@ -63,7 +63,7 @@
 
 
 
-function  gitCard (object) {
+function  gitCard (object, objectName) {
   const divCard = document.createElement('div'), 
         imgHeroNoClass = document.createElement('img'), 
         divCardInfo = document.createElement('div'),
@@ -83,12 +83,12 @@ function  gitCard (object) {
    h3Name.classList.add('name'); 
    pUserName.classList.add('user-name'); 
 
-   imgHeroNoClass.setAttribute(src= `${object.avatar_url}`); 
+   imgHeroNoClass.setAttribute("src", `${object.avatar_url}`); 
    h3Name.textContent=object.name; 
    pUserName.textContent=object.login; 
    pLocationNoClass.textContent = object.location; 
    pProfileNoClass.textContent = `Profile: ${object.html_url}`; 
-   aChildNoClass.setAttribute(src=`${object.html_url}`); 
+   aChildNoClass.setAttribute("href", `${object.html_url}`); 
    pFollowersNoClass.textContent = `Followers: ${object.followers}`;  
    pFollowingNoClass.textContent = `Following: ${object.following}`; 
    pBioNoClass.textContent = `Bio: ${object.bio}`; 
@@ -110,19 +110,21 @@ function  gitCard (object) {
 }
 const board = document.querySelector('.cards'); 
 
+
+
+// axios.get('https://api.github.com/users/web25Lucius')
+// .then(response => { 
+//   console.log(response.data); 
+//   card.appendChild(myGit(response.data));
+
+
 axios.get("https://api.github.com/users/web25Lucius")
   .then(response => {
-  for (const item in response) {
-    const newGitCard = gitCard(item);
-       board.appendChild(newGitCard)
-  }
-      // response.data.forEach(item => {
-      //   const newGitCard = gitCard(item);
-      //     board.appendChild(newGitCard)
-//  });
-})
+    const newGitCard = gitCard(response.data);
+       board.appendChild(newGitCard);
+  })
   .catch( error => {
-    console.log("the data did not return", error);
+    console.log("yo, Mona-your catch is working.", error);
   })
 
 
