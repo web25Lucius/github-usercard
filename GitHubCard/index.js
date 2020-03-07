@@ -63,7 +63,7 @@
 
 
 
-function  gitCard (object, objectName) {
+function  gitCard (object) {
   const divCard = document.createElement('div'), 
         imgHeroNoClass = document.createElement('img'), 
         divCardInfo = document.createElement('div'),
@@ -109,15 +109,6 @@ function  gitCard (object, objectName) {
   
 }
 const board = document.querySelector('.cards'); 
-
-
-
-// axios.get('https://api.github.com/users/web25Lucius')
-// .then(response => { 
-//   console.log(response.data); 
-//   card.appendChild(myGit(response.data));
-
-
 axios.get("https://api.github.com/users/web25Lucius")
   .then(response => {
     const newGitCard = gitCard(response.data);
@@ -125,6 +116,16 @@ axios.get("https://api.github.com/users/web25Lucius")
   })
   .catch( error => {
     console.log("yo, Mona-your catch is working.", error);
+  })
+  axios.get("https://api.github.com/users/web25Lucius/followers")
+  .then(response =>{
+    response.data.forEach( user => {
+       const newFolGitCard = gitCard(user); 
+        board.appendChild(newFolGitCard); 
+    }) 
+
+      // console.log(response.data); 
+    // const newGitFollowersCard = gitCard(response);
   })
 
 
