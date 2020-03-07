@@ -87,11 +87,11 @@ function  gitCard (object) {
    h3Name.textContent=object.name; 
    pUserName.textContent=object.login; 
    pLocationNoClass.textContent = object.location; 
-   pProfileNoClass.textContent = `Profile: ${object.html_url}`; 
+   pProfileNoClass.textContent = ("Profile:" + `${object.html_url}`); 
    aChildNoClass.setAttribute("href", `${object.html_url}`); 
    pFollowersNoClass.textContent = `Followers: ${object.followers}`;  
    pFollowingNoClass.textContent = `Following: ${object.following}`; 
-   pBioNoClass.textContent = `Bio: ${object.bio}`; 
+   pBioNoClass.textContent = "Bio: " + `${object.bio}`; 
 
    divCard.append(imgHeroNoClass);
    divCard.append(divCardInfo);
@@ -108,6 +108,7 @@ function  gitCard (object) {
    return divCard; 
   
 }
+
 const board = document.querySelector('.cards'); 
 axios.get("https://api.github.com/users/web25Lucius")
   .then(response => {
@@ -118,10 +119,62 @@ axios.get("https://api.github.com/users/web25Lucius")
     console.log("yo, know which catch is working? this catch. But srsly something is wrong.", error);
   })
 
+
+
+
+
+
+
+  function  gitFollowerCard (arr) {
+    const divFCard = document.createElement('div'), 
+          imgFHeroNoClass = document.createElement('img'), 
+          divFCardInfo = document.createElement('div'),
+          h3FName = document.createElement('h3'), 
+          pFProfileNoClass = document.createElement('p'), 
+          aFChildNoClass = document.createElement('a'),
+          pFFollowersNoClass = document.createElement('p'),
+          aPFFollowersNoClass = document.createElement('a'), 
+          pFFollowingNoClass = document.createElement('p'),
+          aPFFollowingNoClass = document.createElement ('a');  
+           
+     divFCard.classList.add('card'); 
+     divFCardInfo.classList.add('card-info'); 
+     h3FName.classList.add('name'); 
+      
+  
+     imgFHeroNoClass.setAttribute("src", `${arr.avatar_url}`); 
+     h3FName.textContent=(`${arr.login}`); 
+     pFProfileNoClass.textContent = ("Profile: "); 
+     aFChildNoClass.setAttribute("href", `${arr.html_url}`); 
+     pFFollowersNoClass.textContent = ("Followers: ");
+     aPFFollowersNoClass.setAttribute("href", `${arr.followers_url}`);  
+     pFFollowingNoClass.textContent = ("Following:"); 
+     aPFFollowingNoClass.setAttribute("href", `${arr.following_url}`);  
+  
+     divFCard.append(imgFHeroNoClass);
+     divFCard.append(divFCardInfo);
+     divFCard.append(h3FName);
+     divFCard.append(pFProfileNoClass); 
+     pFProfileNoClass.appendChild(aFChildNoClass); 
+     divFCard.append(pFFollowersNoClass);
+     pFFollowersNoClass.append(aPFFollowersNoClass); 
+     divFCard.append(pFFollowingNoClass); 
+     pFFollowingNoClass.appendChild(aPFFollowingNoClass); 
+      
+  
+  
+     return divFCard; 
+    
+  }
+
+
+
+
+
 axios.get("https://api.github.com/users/web25Lucius/followers")
   .then(response =>{
     response.data.forEach( user => {
-       const newFolGitCard = gitCard(user); 
+       const newFolGitCard = gitFollowerCard(user); 
         board.appendChild(newFolGitCard); 
     }) 
 
