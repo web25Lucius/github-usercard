@@ -9,23 +9,7 @@
 
    Skip to Step 3.
 */
-
-/* Step 4: Pass the data received from Github into your function, 
-           create a new component and add it to the DOM as a child of .cards
-*/
-
-/* Step 5: Now that you have your own card getting added to the DOM, either 
-          follow this link in your browser https://api.github.com/users/<Your github name>/followers 
-          , manually find some other users' github handles, or use the list found 
-          at the bottom of the page. Get at least 5 different Github usernames and add them as
-          Individual strings to the friendsArray below.
-          
-          Using that array, iterate over it, requesting data for each user, creating a new card for each
-          user, and adding that card to the DOM.
-*/
-
-const followersArray = [];
-
+// const followersArray = [];
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
 
@@ -53,3 +37,140 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+
+
+/* Step 4: Pass the data received from Github into your function, 
+           create a new component and add it to the DOM as a child of .cards
+*/
+
+/* Step 5: Now that you have your own card getting added to the DOM, either 
+          follow this link in your browser https://api.github.com/users/<Your github name>/followers 
+          , manually find some other users' github handles, or use the list found 
+          at the bottom of the page. Get at least 5 different Github usernames and add them as
+          Individual strings to the friendsArray below.
+          
+          Using that array, iterate over it, requesting data for each user, creating a new card for each
+          user, and adding that card to the DOM.
+*/
+
+
+function  gitCard (object) {
+  const divCard = document.createElement('div'), 
+        imgHeroNoClass = document.createElement('img'), 
+        divCardInfo = document.createElement('div'),
+        h3Name = document.createElement('h3'), 
+        pUserName = document.createElement('p'),
+        pLocationNoClass = document.createElement('p'),
+        pProfileNoClass = document.createElement('p'), 
+        aChildNoClass = document.createElement('a'),
+        pFollowersNoClass = document.createElement('p'), 
+        pFollowingNoClass = document.createElement('p'), 
+        pBioNoClass = document.createElement('p'); 
+
+  
+
+   divCard.classList.add('card'); 
+   divCardInfo.classList.add('card-info'); 
+   h3Name.classList.add('name'); 
+   pUserName.classList.add('user-name'); 
+
+   imgHeroNoClass.setAttribute("src", `${object.avatar_url}`); 
+   h3Name.textContent=object.name; 
+   pUserName.textContent=object.login; 
+   pLocationNoClass.textContent = object.location; 
+   pProfileNoClass.textContent = ("Profile:" + `${object.html_url}`); 
+   aChildNoClass.setAttribute("href", `${object.html_url}`); 
+   pFollowersNoClass.textContent = `Followers: ${object.followers}`;  
+   pFollowingNoClass.textContent = `Following: ${object.following}`; 
+   pBioNoClass.textContent = "Bio: " + `${object.bio}`; 
+
+   divCard.append(imgHeroNoClass);
+   divCard.append(divCardInfo);
+   divCard.append(h3Name);
+   divCard.append(pUserName); 
+   divCard.append(pLocationNoClass);
+   divCard.append(pProfileNoClass); 
+   divCard.append(aChildNoClass); 
+   divCard.append(pFollowersNoClass); 
+   divCard.append(pFollowingNoClass); 
+   divCard.append(pBioNoClass); 
+
+
+   return divCard; 
+  
+}
+
+const board = document.querySelector('.cards'); 
+axios.get("https://api.github.com/users/web25Lucius")
+  .then(response => {
+    const newGitCard = gitCard(response.data);
+       board.appendChild(newGitCard);
+  })
+  .catch( error => {
+    console.log("yo, know which catch is working? this catch. But srsly something is wrong.", error);
+  })
+
+
+
+
+
+
+
+  function  gitFollowerCard (arr) {
+    const divFCard = document.createElement('div'), 
+          imgFHeroNoClass = document.createElement('img'), 
+          divFCardInfo = document.createElement('div'),
+          h3FName = document.createElement('h3'), 
+          pFProfileNoClass = document.createElement('p'), 
+          aFChildNoClass = document.createElement('a'),
+          pFFollowersNoClass = document.createElement('p'),
+          aPFFollowersNoClass = document.createElement('a'), 
+          pFFollowingNoClass = document.createElement('p'),
+          aPFFollowingNoClass = document.createElement ('a');  
+           
+     divFCard.classList.add('card'); 
+     divFCardInfo.classList.add('card-info'); 
+     h3FName.classList.add('name'); 
+      
+  
+     imgFHeroNoClass.setAttribute("src", `${arr.avatar_url}`); 
+     h3FName.textContent=(`${arr.login}`); 
+     pFProfileNoClass.textContent = ("Profile: "); 
+     aFChildNoClass.setAttribute("href", `${arr.html_url}`); 
+     pFFollowersNoClass.textContent = ("Followers: ");
+     aPFFollowersNoClass.setAttribute("href", `${arr.followers_url}`);  
+     pFFollowingNoClass.textContent = ("Following:"); 
+     aPFFollowingNoClass.setAttribute("href", `${arr.following_url}`);  
+  
+     divFCard.append(imgFHeroNoClass);
+     divFCard.append(divFCardInfo);
+     divFCard.append(h3FName);
+     divFCard.append(pFProfileNoClass); 
+     pFProfileNoClass.appendChild(aFChildNoClass); 
+     divFCard.append(pFFollowersNoClass);
+     pFFollowersNoClass.append(aPFFollowersNoClass); 
+     divFCard.append(pFFollowingNoClass); 
+     pFFollowingNoClass.appendChild(aPFFollowingNoClass); 
+      
+  
+  
+     return divFCard; 
+    
+  }
+
+
+
+
+
+axios.get("https://api.github.com/users/web25Lucius/followers")
+  .then(response =>{
+    response.data.forEach( user => {
+       let newFolGitCard = gitFollowerCard(user); 
+        board.appendChild(newFolGitCard); 
+    }) 
+
+  })
+    .catch( error => {
+      console.log("Something is wrong.", error); 
+    });
