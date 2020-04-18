@@ -164,24 +164,24 @@ axios.get("https://api.github.com/users/web25Lucius")
     
   }
 
-const followersArray = ["tetondan", "dustinmyers", "justsml", "luishrd", "bigknell"];
+// const followersArray = ["tetondan", "dustinmyers", "justsml", "luishrd", "bigknell"];
 
-followersArray.forEach((dude)=>{
-  axios.get(`https://api.github.com/users/${dude}`)
-       .then(res => {
-        //  console.log(res);
-        //    res.data.forEach( user => {
-           let newFolGitCard = gitFollowerCard(res.data); 
-           board.appendChild(newFolGitCard); 
-    // })
-  } 
+// followersArray.forEach((dude)=>{
+//   axios.get(`https://api.github.com/users/${dude}`)
+//        .then(res => {
+//         //  console.log(res);
+//         //    res.data.forEach( user => {
+//            let newFolGitCard = gitFollowerCard(res.data); 
+//            board.appendChild(newFolGitCard); 
+//     // })
+//   } 
 
-)
-      .catch( error => {
-      console.log("Something is wrong.", error); 
-    });
+// )
+//       .catch( error => {
+//       console.log("Something is wrong.", error); 
+//     });
 
-})
+// })
 
 
 
@@ -189,12 +189,17 @@ followersArray.forEach((dude)=>{
 
 //dyanmic stretch:
 
+// let followersArray = [];
+
 // let buddies = (buddyLink)=> {
 //     axios.get(buddyLink)
 //        .then(response => {
-        // followersArray = response.data.map(follower => follower.login); another opinoin-to map data into array and use forEach 
-
-//          followersArray.push(response.data.login)
+//         followersArray = response.data
+//         followersArray.map(follower => {
+          
+//         });
+//         // another opinoin-to map data into array and use forEach 
+//         //  followersArray.push(response.data.login)
 //          followersArray.forEach(login => {
 //            axios.get(`https://api.github.com/users/${login}`)
 //                 .then(buddy => {
@@ -214,6 +219,34 @@ followersArray.forEach((dude)=>{
 // gitFollowerCard([followersArray]);
 
 
+//trying for stretch
+
+
+
+axios.get("https://api.github.com/users/web25Lucius/followers")
+  .then(response =>{
+    response.data.forEach( user => {
+
+      // followersArray.forEach(login => {
+                   axios.get(`https://api.github.com/users/${user.login}`)
+                        .then(buddy => {
+                          let newFolGitCard = gitFollowerCard(buddy.data);
+                          board.appendChild(newFolGitCard);
+                        })
+                 })
+        // newFolGitCard = gitFollowerCard(user); 
+        // board.appendChild(newFolGitCard); 
+    }) 
+
+  // })
+    .catch( error => {
+      console.log("Something is wrong.", error); 
+    });
+
+
+
+
+
 
 //original ending
 
@@ -229,3 +262,5 @@ followersArray.forEach((dude)=>{
 //     .catch( error => {
 //       console.log("Something is wrong.", error); 
 //     });
+
+
