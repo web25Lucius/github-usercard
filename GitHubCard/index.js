@@ -88,13 +88,13 @@ function  gitCard (object) {
    divCard.append(imgHeroNoClass);
    divCard.append(divCardInfo);
    divCard.append(h3Name);
-   divCard.append(pUserName); 
-   divCard.append(pLocationNoClass);
-   divCard.append(pProfileNoClass); 
-   divCard.append(aChildNoClass); 
-   divCard.append(pFollowersNoClass); 
-   divCard.append(pFollowingNoClass); 
-   divCard.append(pBioNoClass); 
+   h3Name.append(pUserName); 
+   pUserName.append(pLocationNoClass);
+   pLocationNoClass.append(pProfileNoClass); 
+   pProfileNoClass.append(aChildNoClass); 
+   aChildNoClass.append(pFollowersNoClass); 
+   pFollowersNoClass.append(pFollowingNoClass); 
+   pFollowingNoClass.append(pBioNoClass); 
 
 
    return divCard; 
@@ -133,24 +133,29 @@ axios.get("https://api.github.com/users/web25Lucius")
      divFCardInfo.classList.add('card-info'); 
      h3FName.classList.add('name'); 
       
-  
+    
      imgFHeroNoClass.setAttribute("src", `${arr.avatar_url}`); 
      h3FName.textContent=(`${arr.login}`); 
-     pFProfileNoClass.textContent = ("Profile: "); 
-     aFChildNoClass.setAttribute("href", `${arr.html_url}`); 
-     pFFollowersNoClass.textContent = ("Followers: ");
-     aPFFollowersNoClass.setAttribute("href", `${arr.followers_url}`);  
-     pFFollowingNoClass.textContent = ("Following:"); 
+     pFProfileNoClass.textContent = (`Location: ${arr.location}`); 
+
+    //  aFChildNoClass.setAttribute("href", `${arr.html_url}`);
+
+    //  pFFollowersNoClass.textContent = ("Followers: ");
+     pFFollowersNoClass.textContent = (`Followers: ${arr.followers}`);
+     aPFFollowersNoClass.setAttribute("href", `${arr.followers_url}`); //maybe code
+    
+    //  pFFollowingNoClass.textContent = ("Following:");
+     pFFollowingNoClass.textContent = (`Following: ${arr.following}`); 
      aPFFollowingNoClass.setAttribute("href", `${arr.following_url}`);  
   
      divFCard.append(imgFHeroNoClass);
      divFCard.append(divFCardInfo);
      divFCard.append(h3FName);
-     divFCard.append(pFProfileNoClass); 
+     h3FName.append(pFProfileNoClass); 
      pFProfileNoClass.appendChild(aFChildNoClass); 
-     divFCard.append(pFFollowersNoClass);
+     aFChildNoClass.append(pFFollowersNoClass);
      pFFollowersNoClass.append(aPFFollowersNoClass); 
-     divFCard.append(pFFollowingNoClass); 
+     aPFFollowersNoClass.append(pFFollowingNoClass); 
      pFFollowingNoClass.appendChild(aPFFollowingNoClass); 
       
   
@@ -159,18 +164,68 @@ axios.get("https://api.github.com/users/web25Lucius")
     
   }
 
+const followersArray = ["tetondan", "dustinmyers", "justsml", "luishrd", "bigknell"];
 
+followersArray.forEach((dude)=>{
+  axios.get(`https://api.github.com/users/${dude}`)
+       .then(res => {
+        //  console.log(res);
+        //    res.data.forEach( user => {
+           let newFolGitCard = gitFollowerCard(res.data); 
+           board.appendChild(newFolGitCard); 
+    // })
+  } 
 
-
-
-axios.get("https://api.github.com/users/web25Lucius/followers")
-  .then(response =>{
-    response.data.forEach( user => {
-       let newFolGitCard = gitFollowerCard(user); 
-        board.appendChild(newFolGitCard); 
-    }) 
-
-  })
-    .catch( error => {
+)
+      .catch( error => {
       console.log("Something is wrong.", error); 
     });
+
+})
+
+
+
+
+
+//dyanmic stretch:
+
+// let buddies = (buddyLink)=> {
+//     axios.get(buddyLink)
+//        .then(response => {
+        // followersArray = response.data.map(follower => follower.login); another opinoin-to map data into array and use forEach 
+
+//          followersArray.push(response.data.login)
+//          followersArray.forEach(login => {
+//            axios.get(`https://api.github.com/users/${login}`)
+//                 .then(buddy => {
+//                   let newFolGitCard = gitFollowerCard(buddy);
+//                   board.appendChild(newFolGitCard);
+//                 })
+//          })
+//                 .catch(error => {
+//                   console.log("Aye! we got an ERROR over 'ere!", error);
+//                 })
+//        })
+
+
+// }
+
+// buddies("https://api.github.com/users/web25Lucius/followers");
+// gitFollowerCard([followersArray]);
+
+
+
+//original ending
+
+
+// axios.get("https://api.github.com/users/web25Lucius/followers")
+//   .then(response =>{
+//     response.data.forEach( user => {
+//         newFolGitCard = gitFollowerCard(user); 
+//         board.appendChild(newFolGitCard); 
+//     }) 
+
+//   })
+//     .catch( error => {
+//       console.log("Something is wrong.", error); 
+//     });
